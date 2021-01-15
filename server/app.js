@@ -2,10 +2,16 @@ const express = require('express')
 const app = express()
 const path = require('path')
 const port = process.env.PORT || 3000
+const database = require('./database.js')
 app.get('',(req, res)=> {
     res.sendFile(path.join(__dirname,'../public/index.html'))
 })
-app.get('/tracking',(req,res)=>
+app.get('/tracking',(req,res)=>{
+      database(req.query.trackingno,(data)=>
+         {res.send(data)}
+      )      
+} )
+/*app.get('/tracking',(req,res)=>
 {
     res.send({ 
         1 : {country : 'Canada',
@@ -51,7 +57,8 @@ app.get('/tracking',(req,res)=>
               status : 'Shipment Received at local facility'
         }    
     })
-})
+})*/
 app.listen(port,()=> {
     console.log('server is up '+ port)
+    
 })
